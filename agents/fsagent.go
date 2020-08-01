@@ -283,7 +283,7 @@ func (sm *FSsessions) onChannelHangupComplete(fsev FSEvent, connIdx int) {
 // Connects to the freeswitch mod_event_socket server and starts
 // listening for events.
 func (sm *FSsessions) Connect() error {
-	eventFilters := map[string][]string{"Call-Direction": {"inbound"}}
+	eventFilters := map[string][]string{"Call-Direction": {"-outbound"}, "variable_cgr_reqtype": {"/^\\*(pre|post)paid$/"}}
 	errChan := make(chan error)
 	for connIdx, connCfg := range sm.cfg.EventSocketConns {
 		fSock, err := fsock.NewFSock(connCfg.Address, connCfg.Password, connCfg.Reconnects,
